@@ -23,7 +23,7 @@ This objective is to build a custom module for managing events with CRUD operati
 ## How should we use the local environment with our project?
 
 1. First, I would mention the project status untill now:
-   1.1 Their is an issue with running the Drupal container, so I had to run the project locally and use the docker environment only with the Database and its admirer.
+   1.1 There is an issue with running the Drupal container, so I had to run the project locally and use the docker environment only with the Database and its admirer.
    1.2 The module install not working correctlly.
 
 2. So you should run the dev environment:
