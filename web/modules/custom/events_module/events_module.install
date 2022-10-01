@@ -1,0 +1,114 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+
+
+function events_schema() {
+	$schema['events_categories'] = array(
+		'fields' => array(
+			'uid'=>array(
+				'type'=>'serial',
+				'not null' => TRUE,
+			),
+			'title'=>array(
+				'type' => 'varchar',
+				'length' => 40,
+				'not null' => TRUE,
+			),
+			'description'=>array(
+				'type' => 'varchar',
+				'length' => 255,
+			)
+		),
+		'primary key' => array('uid'),
+
+	);
+	$schema['user_events'] = array(
+		'fields' => array(
+			'uid'=>array(
+				'type'=>'serial',
+				'not null' => TRUE,
+			),
+			'title'=>array(
+				'type' => 'varchar',
+				'length' => 40,
+				'not null' => TRUE,
+			),
+			'description'=>array(
+				'type' => 'varchar',
+				'length' => 255,
+			),
+			'img_url'=>array(
+				'type' => 'int'
+			),
+			'start_time'=>array(
+				'type' => 'datetime',
+				'not null' => TRUE,
+			),
+			'end_time'=>array(
+				'type' => 'datetime',
+				'not null' => TRUE,
+			),
+			'category_id'=>array(
+				'type' => 'int',
+				'not null' => TRUE,
+			),
+			'user_id'=>array(
+				'type' => 'int',
+				'not null' => TRUE,
+			),
+		),
+		'primary key' => array('uid'),
+		'foreign keys' => array(
+			'users_fk' => array(
+				'table' => 'users',
+				'columns' => array('user_id' => 'uid'),
+			),
+			'categories_kf' => array(
+				'table' => 'events_categories',
+				'columns' => array('category_id' => 'uid'),
+			),
+			'img_fk' => array(
+				'table' => 'file_managed',
+				'columns' => array('img_url' => 'fid'),
+			)
+		)
+
+	);
+
+	$schema['events_module_config'] = array(
+		'fields' => array(
+			'uid'=>array(
+				'type'=>'serial',
+				'not null' => TRUE,
+			),
+			'show_past_events'=>array(
+				'type' => 'boolean',
+				'not null' => TRUE,
+				'default' => '1'
+			),
+			'events_number'=>array(
+				'type' => 'int',
+			),
+			'user_id'=>array(
+				'type' => 'int',
+				'not null' => TRUE,
+			),
+			'created_at'=>array(
+				'type' => 'datetime',
+				'not null' => TRUE,
+			),
+		),
+		'primary key' => array('uid'),
+		'foreign keys' => array(
+			'users_events_config_fk' => array(
+				'table' => 'users',
+				'columns' => array('user_id' => 'uid'),
+			)
+		)
+	);
+	return $schema;
+}
+

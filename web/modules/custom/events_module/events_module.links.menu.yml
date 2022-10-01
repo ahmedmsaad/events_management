@@ -1,0 +1,5 @@
+events_module.settings:
+  title: "Custom module settings"
+  description: "Configure settings for the custom module."
+  route_name: events_module.settings
+  parent: "system.admin_config_development"

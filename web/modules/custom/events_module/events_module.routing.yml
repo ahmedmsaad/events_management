@@ -1,0 +1,31 @@
+events_module.events:
+  path: "/events/page"
+  defaults:
+    _controller: '\Drupal\events_module\Controller\EventsController::index'
+    _title: "Listing all events"
+  requirements:
+    _permission: "access content"
+
+events_module.event_form:
+  path: "/event/data"
+  defaults:
+    _form: 'Drupal\events_module\Form\EventForm'
+    _title: "Add / Edit Event"
+  requirements:
+    _permission: "TRUE"
+
+events_module.event_delete_form:
+  path: "/event/delete/{id}"
+  defaults:
+    _form: '\Drupal\events_module\Form\EventDeleteForm'
+    _title: "Delete event"
+  requirements:
+    _permission: "TRUE"
+
+events_module.settings:
+  path: "/admin/config/development/events-module"
+  defaults:
+    _form: '\Drupal\events_module\Form\EventConfigForm'
+    _title: "Events Module settings"
+  requirements:
+    _permission: "administer site configuration"

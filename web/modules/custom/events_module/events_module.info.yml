@@ -1,0 +1,9 @@
+name: Events Managment
+type: module
+description: "This module to be used for users events managment"
+package: Custom
+version: 1.0
+core_version_requirement: ^8 || ^9
+core: 8.x
+dependencies:
+  - block

@@ -1,0 +1,17 @@
+events_module.settings:
+  type: config_object
+  label: "Events module settings"
+  mapping:
+    policy_library:
+      type: mapping
+      mapping:
+        show_past_events:
+          type: boolean
+          label: "Show past event?"
+          value: TRUE
+        events_limit_number:
+          type: text
+          label: "Number of events to be listed"
+        recent_event_limit:
+          type: text
+          label: "Number of recent events to be listed in the custm block"
