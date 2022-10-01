@@ -3,3 +3,10 @@ events_module.settings:
   description: "Configure settings for the custom module."
   route_name: events_module.settings
   parent: "system.admin_config_development"
+
+events_module.events:
+  title: "Events"
+  description: "Configure settings for the custom module."
+  route_name: events_module.events
+  parent: "main"
+  menu_name: main

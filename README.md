@@ -1,137 +1,45 @@
-# Composer template for Drupal projects
+# Events Management Custom Module
 
-[![CI](https://github.com/drupal-composer/drupal-project/actions/workflows/ci.yml/badge.svg?branch=9.x)](https://github.com/drupal-composer/drupal-project/actions/workflows/ci.yml)
+This objective is to build a custom module for managing events with CRUD operations and configuring this custom module.
 
-This project template provides a starter kit for managing your site
-dependencies with [Composer](https://getcomposer.org/).
+## Requirements:
+
+- XAMPP SERVER (PHP 9.x)
+- Drupal 9
+- Composr
+- Docker
 
 ## Usage
 
-First you need to [install Composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx).
+- First you need to [XAMPP SERVER](https://pureinfotech.com/install-xampp-windows-10/).
+- After that you can clone this repo locally
 
-> Note: The instructions below refer to the [global Composer installation](https://getcomposer.org/doc/00-intro.md#globally).
-You might need to replace `composer` with `php composer.phar` (or similar)
-for your setup.
-
-After that you can create the project:
-
-```
-composer create-project drupal-composer/drupal-project:9.x-dev some-dir --no-interaction
+```bash
+  git clone https://github.com/ahmedmsaad/events_management.git
 ```
 
-With `composer require ...` you can download new dependencies to your
-installation.
+- Now we have the drupal project with local dev environment
 
-```
-cd some-dir
-composer require drupal/devel
-```
+## How should we use the local environment with our project?
 
-The `composer create-project` command passes ownership of all files to the
-project that is created. You should create a new Git repository, and commit
-all files not excluded by the `.gitignore` file.
+1. First, I would mention the project status untill now:
+   1.1 Their is an issue with running the Drupal container, so I had to run the project locally and use the docker environment only with the Database and its admirer.
+   1.2 The module install not working correctlly.
 
-## What does the template do?
+2. So you should run the dev environment:
 
-When installing the given `composer.json` some tasks are taken care of:
-
-* Drupal will be installed in the `web`-directory.
-* Autoloader is implemented to use the generated composer autoloader in `vendor/autoload.php`,
-  instead of the one provided by Drupal (`web/vendor/autoload.php`).
-* Modules (packages of type `drupal-module`) will be placed in `web/modules/contrib/`
-* Theme (packages of type `drupal-theme`) will be placed in `web/themes/contrib/`
-* Profiles (packages of type `drupal-profile`) will be placed in `web/profiles/contrib/`
-* Creates default writable versions of `settings.php` and `services.yml`.
-* Creates `web/sites/default/files`-directory.
-* Latest version of drush is installed locally for use at `vendor/bin/drush`.
-* Latest version of DrupalConsole is installed locally for use at `vendor/bin/drupal`.
-* Creates environment variables based on your .env file. See [.env.example](.env.example).
-
-## Updating Drupal Core
-
-This project will attempt to keep all of your Drupal Core files up-to-date; the
-project [drupal/core-composer-scaffold](https://github.com/drupal/core-composer-scaffold)
-is used to ensure that your scaffold files are updated every time drupal/core is
-updated. If you customize any of the "scaffolding" files (commonly `.htaccess`),
-you may need to merge conflicts if any of your modified files are updated in a
-new release of Drupal core.
-
-Follow the steps below to update your core files.
-
-1. Run `composer update "drupal/core-*" --with-dependencies` to update Drupal Core and its dependencies.
-2. Run `git diff` to determine if any of the scaffolding files have changed.
-   Review the files for any changes and restore any customizations to
-  `.htaccess` or `robots.txt`.
-1. Commit everything all together in a single commit, so `web` will remain in
-   sync with the `core` when checking out branches or running `git bisect`.
-1. In the event that there are non-trivial conflicts in step 2, you may wish
-   to perform these steps on a branch, and use `git merge` to combine the
-   updated core files with your customized files. This facilitates the use
-   of a [three-way merge tool such as kdiff3](http://www.gitshah.com/2010/12/how-to-setup-kdiff-as-diff-tool-for-git.html). This setup is not necessary if your changes are simple;
-   keeping all of your modifications at the beginning or end of the file is a
-   good strategy to keep merges easy.
-
-## FAQ
-
-### Should I commit the contrib modules I download?
-
-Composer recommends **no**. They provide [argumentation against but also
-workrounds if a project decides to do it anyway](https://getcomposer.org/doc/faqs/should-i-commit-the-dependencies-in-my-vendor-directory.md).
-
-### Should I commit the scaffolding files?
-
-The [Drupal Composer Scaffold](https://github.com/drupal/core-composer-scaffold)
-plugin can download the scaffold files (like index.php, update.php, …) to the
-web/ directory of your project. If you have not customized those files you could
-choose to not check them into your version control system (e.g. git). If that is
-the case for your project it might be convenient to automatically run the
-drupal-scaffold plugin after every install or update of your project. You can
-achieve that by registering `@composer drupal:scaffold` as post-install and
-post-update command in your composer.json:
-
-```json
-"scripts": {
-    "post-install-cmd": [
-        "@composer drupal:scaffold",
-        "..."
-    ],
-    "post-update-cmd": [
-        "@composer drupal:scaffold",
-        "..."
-    ]
-},
+```bash
+  docker-compose up -d
 ```
 
-### How can I apply patches to downloaded modules?
+3. navigate to [this link](http://localhost/events_management/web) so you can continue the project installation.
 
-If you need to apply patches (depending on the project being modified, a pull
-request is often a better solution), you can do so with the
-[composer-patches](https://github.com/cweagans/composer-patches) plugin.
-
-To add a patch to drupal module foobar insert the patches section in the extra
-section of composer.json:
-
-```json
-"extra": {
-    "patches": {
-        "drupal/foobar": {
-            "Patch description": "URL or local path to patch"
-        }
-    }
-}
-```
-
-### How do I specify a PHP version ?
-
-This project supports PHP 7.3 as minimum version (see [Environment requirements of Drupal 9](https://www.drupal.org/docs/understanding-drupal/how-drupal-9-was-made-and-what-is-included/environment-requirements-of)), however it's possible that a `composer update` will upgrade some package that will then require PHP 7.3+.
-
-To prevent this you can add this code to specify the PHP version you want to use in the `config` section of `composer.json`:
-
-```json
-"config": {
-    "sort-packages": true,
-    "platform": {
-        "php": "7.3.19"
-    }
-},
-```
+4. now, you should install the custom module.
+   4.1 Go to admin -> Extend -> List
+   4.2 Find the custom module, check it and click on the 'install' button
+   4.3 Go to the home page and you will find the module item added to the main menu. click on the "Events" item in the main menu
+   ![App screenshot](https://previews.dropbox.com/p/thumb/ABq052XXATDGeLPHIZLvPEMHizXZkA31Ks4mQfezdV0t-s6pPvclID4mVRSIBYEXYT_R_E8c1KiWE81HwNIrgclAlJTiRErhfRoDU3miD5H7tSJJ2X1trJBMiuJWtKUYTl4YnG7W-poRtWHtuAIi-ACViTUWVhJbGtK7vb9Z0dilbSSaBsr7VKQRLPMd2uT69IuHxlikp-XW0jIOoOgZY0w_zpzUziBi8ZE5fVoZi_UxOYI0-EQBiADB1cn-Hs8SxTbmIGhycta32QoYaBaT52AJ4OSfzh474Me8TFCTDoaU3l0fRA3kRY0Gs5rsYNYIvgP4exCGQ3bVFIVkyW7Lw58_R5_FYAGEjXw519wUIhFRzVpw9pQRUwNFazmmK5lH9sQ/p.png)
+   4.4 to changes the module configurations, visit the admin -> Configuration -> Development, click on the "Custom module settings".
+   ![App screenshot](https://previews.dropbox.com/p/thumb/ABqkWqMBbDjR5i4ainVRzxzlvrWlx4YMNF_q9Wa6UMt_Bj-dQfAHKkE61EHqskZVF4W1xkZWKV9oHRHf5lhAxSrLSMJF2w3rQ4-ngOnIvq-BIFvfpiY7dGImQbKcOedpxmBiBiYqxjVEp4JWcQMAKjkgoYrZSEQDsRkdVKjR8IYC6pTiM-7ECAYIawdqaDey7nAiQt-sBftbFq2a904UjSlN59L15uKvmczoW09ulMMd5-VGKtFdZIgTX0eHoQxkUEzvYXRkB9gNAWeITj571ZKSEAGYheDzeZC-jzXKozYZtWCO1utk0UEnXSu_oX0xx199Z4JDIgZF6sA2uzlzgWqN3b9kKfJvJLYbEblCG0T1AtcFt1-2J9LV4XeLDabqc0U/p.png)
+   4.5 For enabling the drupal block, visit /admin/structure/block and click on “place block” under one of the section(Ex: Sidebar ), search on the cutom block and then click on "place block"
+   ![App screenshot](https://uc32766f4544ee576809543dcae0.previews.dropboxusercontent.com/p/thumb/ABrdSqY5N2wYiprOb2-Lh1vYLEKzbNifkuW7IZTvegKGpPBCGAj-XtA9re0H9mBRZlziExNEaMGBrbmJNNEIZp2Qj63X3JWSgh3T6OFuUfJNiGi7tf55yKKOJwFxfgG88UxYPw23k7ebrSI3Oa68QZmnZHz-Fzqb60bm9mxo-aZzqILiVivPh1Qeg9hYW1fB6ha9leGhUAkkx8HcaxqD_gFVq2toKSxWMNv1L-s8Ev2y_QMbFSnm-FIn9kVJM5TNueIwm6ZDDb4o7WfLFcjgCDgDdbIM7DxtKmRdEy68NmZbp0kSjeuqtognrawmqkr7xh5y2s2Tm3B5VovTLPweAqB6ZhKUvHziHLcQt4jVpsvje-y9EZihtGN5Ex16qEGp3BYAkYNolxRDtO3mTDKdwn-xkvOkzIGnMtnL6VhjQcA9tg/p.png)
